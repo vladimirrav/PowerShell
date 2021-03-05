@@ -16,9 +16,9 @@
     .OUTPUTS
         execute sp_dropextendedproperty
             @name = N'MS_Description', 
-            @level0type = N'schema', @level0name = N'DSTRBCAO', 
-            @level1type = N'table', @level1name = N'DimAlimentador', 
-            @level2type = N'column', @level2name = N'SkAlimentador' (if column of a table)
+            @level0type = N'schema', @level0name = N'Schema name', 
+            @level1type = N'table', @level1name = N'Table name', 
+            @level2type = N'column', @level2name = N'Column name' (if column of a table)
     
         execute sp_addextendedproperty
             @name = N'MS_Description', 
