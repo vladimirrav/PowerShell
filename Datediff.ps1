@@ -14,7 +14,6 @@
     Data de início do período
     .PARAMETER end
     Data fim do período
-    To connect as a different Windows user, run PowerShell as that user.
     .PARAMETER interval
     Tempo em segundos
     .NOTES
