@@ -9,7 +9,7 @@ Clear-Host;
 
 # Write-Host "Ajuste na criação das constraints FK"
 
-$file = 'C:\Users\vladimirvargas\Documents\ANEEL\SRD DM01 - Perdas técnicas - Criação de constraints.sql'
+$file = 'C:\Users\vladimir\Documents\Criação de constraints.sql'
 $str = @()
 $str += Get-Content $file
 
