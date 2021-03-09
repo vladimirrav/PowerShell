@@ -3,6 +3,8 @@
 $documents = [Environment]::GetFolderPath("MyDocuments")
 
 Set-Location -Path $documents
+
+
 git init
 
 # Config ------------------------------------------------
