@@ -9,7 +9,10 @@ Clear-Host;
 
 # Write-Host "Ajuste na criação das constraints FK"
 
-$file = 'C:\Users\vladimir\Documents\Criação de constraints.sql'
+$documents = [Environment]::GetFolderPath("MyDocuments")
+Set-Location -Path $documents
+
+$file = "$documents\SQL\DM01 - Criação de constraints.sql"
 $str = @()
 $str += Get-Content $file
 
