@@ -32,6 +32,7 @@
         $p += "C:\Users\vladimirvargas\Documents\ANEEL\Custo operacional\Modelo de dados\SQL"
         & "C:\Users\vladimirvargas\Documents\PowerShell\PowerDesigner - SQL Server extended_properties.ps1" -path = $p
 #>
+
 Clear-Host
 
 $sufix = " PS"

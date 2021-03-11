@@ -1,4 +1,5 @@
 ﻿<#
+    Script SQL gerado pelo PowerDesigner
     Ajuste nas criação das constraints
     Operação manual, durante automatização do processo ocorre erro de index
         * Possivelmente não todos os scripts de constraint FK possuem a mesma estrutura de linhas
@@ -12,7 +13,7 @@ Clear-Host;
 $documents = [Environment]::GetFolderPath("MyDocuments")
 Set-Location -Path $documents
 
-$file = "$documents\SQL\DM01 - Criação de constraints.sql"
+$file = "$documents\DM01 - Criação de constraints.sql"
 $str = @()
 $str += Get-Content $file
 
