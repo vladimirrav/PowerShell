@@ -16,31 +16,40 @@
     .OUTPUTS
         execute sp_dropextendedproperty
             @name = N'MS_Description', 
-            @level0type = N'schema', @level0name = N'Schema name', 
-            @level1type = N'table', @level1name = N'Table name', 
+            @level0type = N'schema', @level0name = N'Schema name',
+            @level1type = N'table', @level1name = N'Table name',
             @level2type = N'column', @level2name = N'Column name' (if column of a table)
     
         execute sp_addextendedproperty
             @name = N'MS_Description', 
             @value = N'Object description.',
-            @level0type = N'schema', @level0name = N'Schema name', 
-            @level1type = N'table', @level1name = N'Table name', 
+            @level0type = N'schema', @level0name = N'Schema name',
+            @level1type = N'table', @level1name = N'Table name',
             @level2type = N'column', @level2name = N'Column name' (if column of a table)
+    .EXAMPLE
+        $p = @()
+        $p += "C:\Users\vladimirvargas\Documents\ANEEL\Perdas técnicas\Modelo de dados\SQL"
+        $p += "C:\Users\vladimirvargas\Documents\ANEEL\Custo operacional\Modelo de dados\SQL"
+        & "C:\Users\vladimirvargas\Documents\PowerShell\PowerDesigner - SQL Server extended_properties.ps1" -path = $p
 #>
 Clear-Host
 
 $sufix = " PS"
+$db_name = "db_name"
+
+$documents = [Environment]::GetFolderPath("MyDocuments")
+Set-Location -Path $documents
 
 $path = @()
 
 <# DM 01 #>
-$path += "C:\Users\vladimir\Documents\Modelo de dados\SQL"
+$path += "$documents\DM 01\Modelo de dados\SQL"
 <# DM 02 #>
-# $path += "C:\Users\vladimir\Documents\Modelo de dados\SQL"
+# $path += "$documents\DM 02\Modelo de dados\SQL"
 
 foreach ($folder in $path) {
 
-    if ($folder[-1] -ne "\"){
+    if ($folder[-1] -ne "\") {
         $folder += "\"
     }
 
@@ -51,13 +60,13 @@ foreach ($folder in $path) {
     foreach ($file in $files) {
         $test_path = Test-Path -Path ($folder + ((Split-Path $file -Leaf) -replace '.sql', ($sufix + '.sql')))
     
-        if($test_path){
+        if($test_path) {
             Remove-Item ($folder + ((Split-Path $file -Leaf) -replace '.sql', ($sufix + '.sql')))
         }
         $lines = @()
         $lines += "print '" + ((Split-Path $file -Leaf) -replace '.sql', ($sufix + '.sql')) + "';"
         $lines += ""
-        $lines += "use [dbname];"
+        $lines += "use $db_name;"
         $lines += ""
         $lines += Get-Content $file
 
@@ -67,7 +76,7 @@ foreach ($folder in $path) {
         $tmp = $null
         foreach ($line in $lines) {
             $tmp = $line
-            if($line -match 'create table '){
+            if($line -match 'create table ') {
                 $line = "if object_id('" + ($line -replace 'create table ' -replace ' \(').Split('.')[0] + "." + ($line -replace 'create table ' -replace ' \(').Split('.')[1] + "') is null"
                 $line += "`r`n" + $tmp
             }
@@ -98,7 +107,7 @@ foreach ($folder in $path) {
             if ($line.Contains('exists (select 1') -or $line.Contains('exists(select 1')) {
                 $line = $line.Replace("exists (select 1", "exists (select *").Replace("exists(select 1", "exists (select *")
             }
-        
+
             $i++
             #Write-Host $line
         
