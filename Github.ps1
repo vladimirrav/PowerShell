@@ -21,7 +21,7 @@ Get-Location
 git pull
 git status
 git add .
-git commit -m "Github repositores"
+git commit -m "Github repositories"
 git push
 
 Set-Location -Path $documents\T-SQL
