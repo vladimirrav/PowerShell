@@ -26,11 +26,6 @@
             @level0type = N'schema', @level0name = N'Schema name',
             @level1type = N'table', @level1name = N'Table name',
             @level2type = N'column', @level2name = N'Column name' (if column of a table)
-    .EXAMPLE
-        $p = @()
-        $p += "C:\Users\vladimirvargas\Documents\ANEEL\Perdas técnicas\Modelo de dados\SQL"
-        $p += "C:\Users\vladimirvargas\Documents\ANEEL\Custo operacional\Modelo de dados\SQL"
-        & "C:\Users\vladimirvargas\Documents\PowerShell\PowerDesigner - SQL Server extended_properties.ps1" -path = $p
 #>
 
 Clear-Host
