@@ -45,7 +45,7 @@ $sizes = @('PNG-32', 'PNG-128')
 
 foreach ($size in $sizes)
 {
-    $items = Get-ChildItem -Path ($path + "$size\") | Select FullName
+    $items = Get-ChildItem -Path ($path + "$size\") | Select-Object FullName
     Write-Host $size
     foreach ($item in $items)
     {
