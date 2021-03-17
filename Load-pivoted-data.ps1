@@ -43,7 +43,7 @@ Write-Host (Get-Date -format "yyyy-MM-dd HH:mm:ss") "| Load pivoted data" -Foreg
 Write-Host ("-" * 80)
 
 $path = 'C:\Users\Vladimir\OneDrive\Documentos\COVID-19\Dataset\'
-$items = (Get-ChildItem -Path ($path + "time_series*.csv") | Select FullName) #| Select -First 1
+$items = (Get-ChildItem -Path ($path + "time_series*.csv") | Select-Object FullName) #| Select -First 1
 $tables = @()
 
 $items_count = $items.Count
@@ -67,7 +67,7 @@ foreach ($item in $items)
     Write-Host (Get-Date -format "yyyy-MM-dd HH:mm:ss") "| Schema: [$schema]"
     Write-Host (Get-Date -format "yyyy-MM-dd HH:mm:ss") "| Table: [$table]"
     
-    $header = (Get-Content $item.FullName | Select -First 1).replace(",", "|,|")
+    $header = (Get-Content $item.FullName | Select-Object -First 1).replace(",", "|,|")
 
     $j = 0; $new_header = @();
 
@@ -88,7 +88,7 @@ foreach ($item in $items)
     
     Invoke-Sqlcmd -Database $db_name -Query $create_table -ServerInstance $sql_instance_name
 
-    $csv = Import-Csv -Path $item.FullName -Header $new_header | Select -Skip 1
+    $csv = Import-Csv -Path $item.FullName -Header $new_header | Select-Object -Skip 1
     
     $insert = $null
     $pc_row = 0
@@ -103,8 +103,8 @@ foreach ($item in $items)
         $query = "insert into [$schema].[$table] values ("
         foreach ($column in $new_header)
         {
-            $value = ($row | Select $column)
-            $query += "nullif('" + ($value | % { $_.$(( $value | gm | ? { $_.membertype -eq "noteproperty"} )[0].name) }).Replace("'", "''") + "',''),"
+            $value = ($row | Select-Object $column)
+            $query += "nullif('" + ($value | ForEach-Object { $_.$(( $value | Get-Member | Where-Object { $_.membertype -eq "noteproperty"} )[0].name) }).Replace("'", "''") + "',''),"
         }
         $query += " current_timestamp);"
         $insert = $query
