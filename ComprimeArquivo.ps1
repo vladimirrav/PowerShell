@@ -68,10 +68,11 @@ Write-Host $arquivo -ForegroundColor Cyan;
 Write-Host ('-' * 80);
 
 $path = ($diretorio_origem, $arquivo -join "\").Replace("\\", "\");
+$path_d = ($diretorio_destino, $guid -join "\").Replace("\\", "\");
 
 try
 {
-    Compress-Archive -Update -Path $path -CompressionLevel Optimal -DestinationPath ($diretorio_destino, $guid -join "\").Replace("\\", "\") -ErrorAction Stop;
+    Compress-Archive -Update -Path $path -CompressionLevel Optimal -DestinationPath $path_d -ErrorAction Stop;
     Write-Host ([char]10004) 'Operação realizada com sucesso' -ForegroundColor Green;
 }
 catch
