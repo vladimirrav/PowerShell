@@ -43,7 +43,7 @@ $directory = ([Environment]::GetFolderPath("MyDocuments"))
 [string]$guid = (New-Guid).Guid.toString().toUpper()
 [string]$diretorio_origem = "$directory\Powershell"
 [string]$diretorio_destino = "$directory\Powershell"
-[string]$arquivo = "Github.ps11"
+[string]$arquivo = "Github.ps1"
 #--------------------------------------------------------------#>
 
 Clear-Host;
