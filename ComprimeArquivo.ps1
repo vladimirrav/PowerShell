@@ -21,7 +21,7 @@
     Arquivo comprimido no formato guid.zip
 
     .NOTES
-        Author: Vladimir Rubinstien Andrade Vargas
+        Author: Vladimir Rubinstein Andrade Vargas
         Date: 2021-03-16
 
     .EXAMPLE
@@ -78,6 +78,7 @@ catch
 {
     Write-Host ([char]10006) $_.Exception.Message -ForegroundColor Red;
 }
-finally{
+finally
+{
     Write-Host("-" * 80)
 };
