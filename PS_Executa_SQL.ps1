@@ -37,11 +37,11 @@ $SqlConnection = New-Object System.Data.SqlClient.SqlConnection
 
 $SqlConnection.ConnectionString = "Server=$no_servidor;Database=$no_bd;Trusted_Connection=True;Encrypt=False;Connection Timeout=30;"
 
-$SqlConnection.Open()
-($qt, $i) = ($batches.Count, 1)
-
 try
 {
+    $SqlConnection.Open()
+    ($qt, $i) = ($batches.Count, 1)
+
     foreach($batch in $batches)
     {
         if ($batch.Trim() -ne ""){
