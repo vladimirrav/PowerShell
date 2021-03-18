@@ -10,9 +10,11 @@
     Número para a verificação.
 
     .PARAMETER sg
-    Indica se deve ser usada a sigla da região ou o nome por extenso;
+    Indica se deve ser usada a sigla da região fiscal ou o nome por extenso;
       -sg $true ou -sg 1 - Sigla da região;
-      -sg $false ou -sg 0 - Nome da região fiscal escrita por extenso.
+      -sg $false ou -sg 0 - Nome da região escrito por extenso.
+    .NOTES
+      Author: Vladimir Rubinstein Andrade Vargas
 
     .EXAMPLE
     & ((([Environment]::GetFolderPath("MyDocuments")), "PowerShell\Verifica CPF.ps1") -join "\") -cpf 12345678909
@@ -109,57 +111,45 @@ While($true)
 
     If($resultado)
     {
-        $ForegroundColor = 'Green';
-        $char = [char]10004
+        $ForegroundColor, $char = 'Green', [char]10004;
     }
     Else
     {
-        $ForegroundColor = 'Red'
-        $char = [char]10006
+        $ForegroundColor, $char = 'Red', [char]10006;
     };
 
     Switch ($str.Substring(8,1))
     {
         0 {
-            $regiao = '10. Rio Grande do Sul';
-            $uf = '10. RS'
-            }
+            $regiao, $uf = '10. Rio Grande do Sul', '10. RS';
+          }
         1 {
-            $regiao = '1. Distrito Federal, Goiás, Mato Grosso, Mato Grosso do Sul e Tocantins';
-            $uf = '1. DF, GO, MT, MS, TO'
-            }
+            $regiao, $uf = '1. Distrito Federal, Goiás, Mato Grosso, Mato Grosso do Sul e Tocantins', '1. DF, GO, MT, MS, TO';
+          }
         2 {
-            $regiao = '2. Amazonas, Pará, Roraima, Amapá, Acre e Rondônia';
-            $uf = '2. AM, PA, RR, AP, AC, RO'
-            }
+            $regiao, $uf = '2. Amazonas, Pará, Roraima, Amapá, Acre e Rondônia', '2. AM, PA, RR, AP, AC, RO';
+          }
         3 {
-            $regiao = '3. Ceará, Maranhão e Piauí';
-            $uf = '3. CE, MA, PI'
-            }
+            $regiao, $uf = '3. Ceará, Maranhão e Piauí', '3. CE, MA, PI';
+          }
         4 {
-            $regiao = '4. Paraíba, Pernambuco, Alagoas e Rio Grande do Norte';
-            $uf = '4. PB, PE, AL, RN'
-            }
+            $regiao, $uf = '4. Paraíba, Pernambuco, Alagoas e Rio Grande do Norte', '4. PB, PE, AL, RN';
+          }
         5 {
-            $regiao = '5. Bahia e Sergipe';
-            $uf = '5. BA, SE'
-            }
+            $regiao, $uf = '5. Bahia e Sergipe', '5. BA, SE';
+          }
         6 {
-            $regiao = '6. Minas Gerais';
-            $uf = '6. MG'
-            }
+            $regiao, $uf = '6. Minas Gerais', '6. MG';
+          }
         7 {
-            $regiao = '7. Rio de Janeiro e Espírito Santo';
-            $uf = '7. RJ, ES'
-            }
+            $regiao, $uf = '7. Rio de Janeiro e Espírito Santo', '7. RJ, ES';
+          }
         8 {
-            $regiao = '8. São Paulo';
-            $uf = '8. SP'
-            }
+            $regiao, $uf = '8. São Paulo', '8. SP';
+          }
         9 {
-            $regiao = '9. Paraná e Santa Catarina';
-            $uf = '9. PR, SC'
-            }
+            $regiao, $uf = '9. Paraná e Santa Catarina', '9. PR, SC';
+          }
     };
 
     Write-Host $char, " " -ForegroundColor $ForegroundColor -NoNewline
