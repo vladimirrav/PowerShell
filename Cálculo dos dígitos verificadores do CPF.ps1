@@ -9,18 +9,25 @@
     .PARAMETER cpf
     Número para o cálculo dos dígitos.
 
+    .PARAMETER sg
+    Indica se deve ser usada a sigla da região ou o nome por extenso;
+      -sg $true ou -sg 1 - Sigla da região;
+      -sg $false ou -sg 0 - Nome da região tributária escrita por extenso.
+
     .EXAMPLE
-    & 'C:\Users\vladi\OneDrive\Documentos\Shell\Cálculo dos dígitos verificadores do CPF.ps1' -cpf 123456789
+    & 'C:\Users\vladi\OneDrive\Documentos\PowerShell\Cálculo dos dígitos verificadores do CPF.ps1' -cpf 123456789
+    
+    .EXAMPLE
+    & 'C:\Users\vladi\OneDrive\Documentos\PowerShell\Cálculo dos dígitos verificadores do CPF.ps1' -cpf 123456789 -sg $false
 #>
 
 param
 (
-    [string]$cpf
+    [string]$cpf = '123456789',
+    [boolean]$sg = $true
 );
 
-'Cálculo dos dígitos verificadores do CPF';
-
-$sg = $true;
+Write-Host 'Cálculo dos dígitos verificadores do CPF';
 
 $x = 1;
 
@@ -168,20 +175,18 @@ while ($true)
           }
     };
 
-    $str.Substring(0,3) + '.' + $str.Substring(3,3) + '.' + $str.Substring(6,3) + '-' + $j + $k + '  ' + $uf;
+    if ($sg)
+    {
+      $re = $uf;
+      
+    }
+    else
+    {
+      $re = $regiao;
+    };
 
-    #If(!$sg)
-    #{
-    #    '-' * $regiao.Length;
-    #    $regiao;
-    #    '-' * $regiao.Length;
-    #}
-    #else
-    #{
-    #    '-' * $uf.Length;
-    #    $uf;
-    #    '-' * $uf.Length;
-    #};
+    Write-Host ($str.Substring(0,3), '.', $str.Substring(3,3), '.', $str.Substring(6,3), '-', $j, $k, '  ', $re) -Separator "";
+
     $x += 1;
     $cpf = $null;
 };

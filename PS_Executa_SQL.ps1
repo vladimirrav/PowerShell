@@ -26,11 +26,12 @@ param (
     [string] $no_arquivo_sql = "@{no_arquivo_sql}"
 )
 
-Write-Host ("Diretório: ".PadRight(12, ' ') + (Split-Path $no_arquivo_sql -Parent))
-Write-Host ("Script SQL: ".PadRight(12, ' ') + (Split-Path $no_arquivo_sql -Leaf))
-Get-Content $no_arquivo_sql | Measure-Object | ForEach-Object { $qt_linhas = $_.Count }
+Write-Host ("Diretório: ".PadRight(12, ' '), (Split-Path $no_arquivo_sql -Parent))
+Write-Host ("Script SQL: ".PadRight(12, ' '), (Split-Path $no_arquivo_sql -Leaf))
+Get-Content $no_arquivo_sql | Measure-Object | ForEach-Object { $script:qt_linhas = $_.Count }
 
-Write-Host "Linhas: $qt_linhas"
+Write-Host "Linhas:", $qt_linhas
+
 $batches = (Get-Content -LiteralPath $no_arquivo_sql -Raw) -split ("`r`nGO`r`n")
 
 $SqlConnection = New-Object System.Data.SqlClient.SqlConnection
@@ -44,18 +45,19 @@ try
 
     foreach($batch in $batches)
     {
-        if ($batch.Trim() -ne ""){
+        if ($batch.Trim() -ne "")
+        {
             $SqlCmd = New-Object System.Data.SqlClient.SqlCommand
             $SqlCmd.CommandText = $batch
             $SqlCmd.Connection = $SqlConnection
             $SqlCmd.ExecuteNonQuery() | Out-Null
         }
     }
-    Write-Host "OK - Arquivo" (Split-Path $no_arquivo_sql -Leaf) "executado com sucesso" -ForegroundColor Green
+    Write-Host "OK - Arquivo", (Split-Path $no_arquivo_sql -Leaf), "executado com sucesso" -ForegroundColor Green
 }
 catch
 {
-    Write-Host "ERRO - Falha na implantação do arquivo" (Split-Path $no_arquivo_sql -Leaf) -ForegroundColor Red
+    Write-Host "ERRO - Falha na implantação do arquivo", (Split-Path $no_arquivo_sql -Leaf) -ForegroundColor Red
     $_.Exception.Message
 }
 finally

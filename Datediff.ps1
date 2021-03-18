@@ -27,20 +27,23 @@
         Remove-Job -Name DateDiff;
 #>
 
-if (!$start) {
+if (!$start)
+{
     $start = (Get-Date).ToString('2018-09-10 09:30:00');
 };
-if (!$end) {
+if (!$end)
+{
     $end = (Get-Date).ToString('2019-09-14 07:00:00');
 };
-if (!$interval) {
+if (!$interval)
+{
     $interval = 7;
 };
 $i = 1;
 $qt_pad = 10;
 $ch_pad = " ";
-$qt_min = 0;
-$qt_min_total = 0;
+# $qt_min = 0;
+# $qt_min_total = 0;
 $n = 170/100;
 $ts = New-TimeSpan -Start $start -End $end;
 
@@ -50,20 +53,20 @@ do {
     $ts2 = New-TimeSpan -Start (Get-Date) -End $end;
     $pc = 1 - $ts2.TotalMinutes / $ts.TotalMinutes;
 
-    Write-Host ([char]12321 + (([char]9608).toString() * [Math]::Floor($pc * (100 * $n))).PadRight((100 * $n), ' ') + [char]12321) ($pc).ToString('| 0.00% |');
-    $Host.UI.RawUI.WindowTitle = ([char]12321 + (([char]9608).toString() * [Math]::Floor($pc * (100 * 0.50))).PadRight((100 * 0.50), ' ') + [char]12321) + ($pc).ToString('| 0.00% |')
+    Write-Host ([char]12321, (([char]9608).toString() * [Math]::Floor($pc * (100 * $n))).PadRight((100 * $n), ' '), [char]12321) ($pc).ToString('| 0.00% |');
+    $Host.UI.RawUI.WindowTitle = ([char]12321, (([char]9608).toString() * [Math]::Floor($pc * (100 * 0.50))).PadRight((100 * 0.50), ' '), [char]12321), ($pc).ToString('| 0.00% |')
 
     Write-Host ('-' * ((100 * $n) + 3));
-    Write-Host ('# ' + $i);
-    Write-Host ('Start'.PadRight($qt_pad, $ch_pad) + $start);
-    Write-Host ('End'.PadRight($qt_pad, $ch_pad) + $end);
-    Write-Host ('Interval'.PadRight($qt_pad, $ch_pad) + [timespan]::FromSeconds($interval).toString());
+    Write-Host ('#', $i);
+    Write-Host ('Start'.PadRight($qt_pad, $ch_pad), $start);
+    Write-Host ('End'.PadRight($qt_pad, $ch_pad), $end);
+    Write-Host ('Interval'.PadRight($qt_pad, $ch_pad), [timespan]::FromSeconds($interval).toString());
 
 
-    Write-Host ('Days'.PadRight($qt_pad, $ch_pad) + ([Math]::Ceiling($ts2.TotalDays)).ToString('0').PadLeft($qt_pad, $ch_pad) + ' | ' + ([Math]::Ceiling($ts.TotalDays)).ToString('0').PadLeft($qt_pad, $ch_pad));
-    Write-Host ('Hours'.PadRight($qt_pad, $ch_pad) + $ts2.TotalHours.ToString('#,0').PadLeft($qt_pad, $ch_pad) + ' | ' + $ts.TotalHours.ToString('#,0').PadLeft($qt_pad, $ch_pad));
-    Write-Host ('Minutes'.PadRight($qt_pad, $ch_pad) + $ts2.TotalMinutes.ToString('#,0').PadLeft($qt_pad, $ch_pad) + ' | ' + $ts.TotalMinutes.ToString('#,0').PadLeft($qt_pad, $ch_pad));
-    Write-Host ('Seconds'.PadRight($qt_pad, $ch_pad) + $ts2.TotalSeconds.ToString('#,0').PadLeft($qt_pad, $ch_pad) + ' | ' + $ts.TotalSeconds.ToString('#,0').PadLeft($qt_pad, $ch_pad));
+    Write-Host ('Days'.PadRight($qt_pad, $ch_pad), ([Math]::Ceiling($ts2.TotalDays)).ToString('0').PadLeft($qt_pad, $ch_pad), '|', ([Math]::Ceiling($ts.TotalDays)).ToString('0').PadLeft($qt_pad, $ch_pad));
+    Write-Host ('Hours'.PadRight($qt_pad, $ch_pad), $ts2.TotalHours.ToString('#,0').PadLeft($qt_pad, $ch_pad), '|', $ts.TotalHours.ToString('#,0').PadLeft($qt_pad, $ch_pad));
+    Write-Host ('Minutes'.PadRight($qt_pad, $ch_pad), $ts2.TotalMinutes.ToString('#,0').PadLeft($qt_pad, $ch_pad), '|', $ts.TotalMinutes.ToString('#,0').PadLeft($qt_pad, $ch_pad));
+    Write-Host ('Seconds'.PadRight($qt_pad, $ch_pad), $ts2.TotalSeconds.ToString('#,0').PadLeft($qt_pad, $ch_pad), '|', $ts.TotalSeconds.ToString('#,0').PadLeft($qt_pad, $ch_pad));
 
     Write-Host ('-' * ((100 * $n) + 3));
 
@@ -93,45 +96,32 @@ while ($ts.TotalHours -ge 0);
 
 Write-Host ('*' * ((100 * $n) + 3));
 
-try {
+try
+{
     Stop-Job -Name DateDiff;
     Remove-Job -Name DateDiff;
-} catch {
+}
+catch
+{
     $_.Exception.Message;
 };
 
 <#
-Clear-Host;
-Write-Host ([char]12321 + (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' ') + [char]12321) -ForegroundColor Black;
-Write-Host ([char]12321 + (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' ') + [char]12321) -ForegroundColor Blue;
-Write-Host ([char]12321 + (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' ') + [char]12321) -ForegroundColor Cyan;
-Write-Host ([char]12321 + (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' ') + [char]12321) -ForegroundColor DarkBlue;
-Write-Host ([char]12321 + (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' ') + [char]12321) -ForegroundColor DarkCyan;
-Write-Host ([char]12321 + (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' ') + [char]12321) -ForegroundColor DarkGray;
-Write-Host ([char]12321 + (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' ') + [char]12321) -ForegroundColor DarkGreen;
-Write-Host ([char]12321 + (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' ') + [char]12321) -ForegroundColor DarkMagenta;
-Write-Host ([char]12321 + (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' ') + [char]12321) -ForegroundColor DarkRed;
-Write-Host ([char]12321 + (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' ') + [char]12321) -ForegroundColor DarkYellow;
-Write-Host ([char]12321 + (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' ') + [char]12321) -ForegroundColor Gray;
-Write-Host ([char]12321 + (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' ') + [char]12321) -ForegroundColor Green;
-Write-Host ([char]12321 + (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' ') + [char]12321) -ForegroundColor Magenta;
-Write-Host ([char]12321 + (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' ') + [char]12321) -ForegroundColor Red;
-Write-Host ([char]12321 + (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' ') + [char]12321) -ForegroundColor White;
-Write-Host ([char]12321 + (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' ') + [char]12321) -ForegroundColor Yellow;
-
-Add-Type -AssemblyName PresentationCore,PresentationFramework
-$ButtonType = [System.Windows.MessageBoxButton]::OK #YesNoCancel
-$MessageIcon = [System.Windows.MessageBoxImage]::Error
-$MessageBody = "Are you sure you want to delete the log file?"
-$MessageTitle = "Confirm Deletion"
- 
-$Result = [System.Windows.MessageBox]::Show($MessageBody,$MessageTitle,$ButtonType,$MessageIcon)
- 
-Write-Host "Your choice is $Result"
+    Clear-Host;
+    Write-Host ([char]12321, (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' '), [char]12321) -ForegroundColor Black;
+    Write-Host ([char]12321, (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' '), [char]12321) -ForegroundColor Blue;
+    Write-Host ([char]12321, (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' '), [char]12321) -ForegroundColor Cyan;
+    Write-Host ([char]12321, (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' '), [char]12321) -ForegroundColor DarkBlue;
+    Write-Host ([char]12321, (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' '), [char]12321) -ForegroundColor DarkCyan;
+    Write-Host ([char]12321, (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' '), [char]12321) -ForegroundColor DarkGray;
+    Write-Host ([char]12321, (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' '), [char]12321) -ForegroundColor DarkGreen;
+    Write-Host ([char]12321, (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' '), [char]12321) -ForegroundColor DarkMagenta;
+    Write-Host ([char]12321, (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' '), [char]12321) -ForegroundColor DarkRed;
+    Write-Host ([char]12321, (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' '), [char]12321) -ForegroundColor DarkYellow;
+    Write-Host ([char]12321, (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' '), [char]12321) -ForegroundColor Gray;
+    Write-Host ([char]12321, (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' '), [char]12321) -ForegroundColor Green;
+    Write-Host ([char]12321, (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' '), [char]12321) -ForegroundColor Magenta;
+    Write-Host ([char]12321, (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' '), [char]12321) -ForegroundColor Red;
+    Write-Host ([char]12321, (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' '), [char]12321) -ForegroundColor White;
+    Write-Host ([char]12321, (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' '), [char]12321) -ForegroundColor Yellow;
 #>
-
-Clear-Host
-$object = new-object -comobject wscript.shell
-$msgBox = $object.popup("Your Message Here",3,"Your Title Here",0)
-IF($msgBox -eq 1){"User Clicked OK"}
-IF($msgBox -eq -1){"msgBox Timed Out"}

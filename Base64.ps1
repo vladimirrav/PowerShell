@@ -50,8 +50,8 @@ foreach ($size in $sizes)
     foreach ($item in $items)
     {
         $country_code = (Split-Path -Path $item.FullName -Leaf).Substring(0, 2)
-        #Write-Host (Split-Path -Path $item.FullName -Leaf).Substring(0, 2)
-        $file_name = (Split-Path -Path $item.FullName -Leaf).Split('.')[0]
+        # Write-Host (Split-Path -Path $item.FullName -Leaf).Substring(0, 2)
+        # $file_name = (Split-Path -Path $item.FullName -Leaf).Split('.')[0]
         $ext = (Split-Path -Path $item.FullName -Leaf).Split('.')[1]
         $prefix = "data:image/$ext;base64, "
 

@@ -22,7 +22,7 @@ $date_ymd = (Get-Date).Date.AddDays($x).ToString('yyyy-MM-dd')
 foreach($file in $uri)
 {
     $outfile = ("$path\"+(Split-Path $file -Leaf)) -replace $date, ($date_ymd + "_csse_covid_19_daily_report")
-    Write-Host (Get-Date -Format "yyyy-MM-dd HH:mm:ss") "|" (Split-Path $outfile -Leaf)
+    Write-Host (Get-Date -Format "yyyy-MM-dd HH:mm:ss"), "|" (Split-Path $outfile -Leaf)
     try {
         Invoke-WebRequest -Uri $file -OutFile $outfile
     }
@@ -35,11 +35,11 @@ foreach($file in $uri)
     $ts = [timespan]::fromseconds($elapsed_time)
 }
 
-Write-Host (Get-Date -Format "yyyy-MM-dd HH:mm:ss") "| Elapsed time:"("{0:hh\:mm\:ss\,fff}" -f $ts)
-Write-Host (Get-Date -format "yyyy-MM-dd HH:mm:ss") "| Download finished"
+Write-Host (Get-Date -Format "yyyy-MM-dd HH:mm:ss"), "| Elapsed time:"("{0:hh\:mm\:ss\,fff}" -f $ts)
+Write-Host (Get-Date -format "yyyy-MM-dd HH:mm:ss"), "| Download finished"
 
 Write-Host ("-" * 80)
-Write-Host (Get-Date -format "yyyy-MM-dd HH:mm:ss") "| Load pivoted data" -ForegroundColor Yellow
+Write-Host (Get-Date -format "yyyy-MM-dd HH:mm:ss"), "| Load pivoted data" -ForegroundColor Yellow
 Write-Host ("-" * 80)
 
 $path = 'C:\Users\Vladimir\OneDrive\Documentos\COVID-19\Dataset\'
@@ -113,7 +113,7 @@ foreach ($item in $items)
         Invoke-Sqlcmd -Database $db_name -Query $insert -ServerInstance $sql_instance_name
     }
 
-    Write-Host (Get-Date -format "yyyy-MM-dd HH:mm:ss") "| Lines: $csv_count"
+    Write-Host (Get-Date -format "yyyy-MM-dd HH:mm:ss"), "| Lines: $csv_count"
 
     #Start-Sleep -Seconds 2
 
@@ -121,16 +121,16 @@ foreach ($item in $items)
     $elapsed_time += (New-TimeSpan -Start $dt_start -End $dt_end).TotalSeconds
     $ts = [timespan]::fromseconds($elapsed_time)
 
-    Write-Host (Get-Date -Format "yyyy-MM-dd HH:mm:ss") "| Elapsed time:"("{0:hh\:mm\:ss\,fff}" -f $ts)
+    Write-Host (Get-Date -Format "yyyy-MM-dd HH:mm:ss"), "| Elapsed time:"("{0:hh\:mm\:ss\,fff}" -f $ts)
     Write-Host ("-" * 80)
 }
 
-Write-Host (Get-Date -format "yyyy-MM-dd HH:mm:ss") "| Unpivot data" -ForegroundColor Yellow
+Write-Host (Get-Date -format "yyyy-MM-dd HH:mm:ss"), "| Unpivot data" -ForegroundColor Yellow
 Write-Host ("-" * 80)
 
 $i = 1
 $qt_tables = $tables.Count
-Write-Host (Get-Date -format "yyyy-MM-dd HH:mm:ss") "| Tables: $qt_tables"
+Write-Host (Get-Date -format "yyyy-MM-dd HH:mm:ss"), "| Tables: $qt_tables"
 
 foreach ($table in $tables)
 {
@@ -143,7 +143,7 @@ foreach ($table in $tables)
     where quotename(TABLE_SCHEMA) = '[$schema]' and quotename(TABLE_NAME) = quotename('$table')
     order by ORDINAL_POSITION;"
 
-    $columns = (Invoke-Sqlcmd -Database $db_name -Query $pivot_columns -ServerInstance $sql_instance_name).column_name | Select -Skip 5 | Select -SkipLast 1
+    $columns = (Invoke-Sqlcmd -Database $db_name -Query $pivot_columns -ServerInstance $sql_instance_name).column_name | Select-Object -Skip 5 | Select-Object -SkipLast 1
 
     $column_list = $null
 
@@ -180,7 +180,7 @@ foreach ($table in $tables)
 
     $table = $table -replace '_pivot$', '_unpivot'
     
-    Write-Host (Get-Date -format "yyyy-MM-dd HH:mm:ss") "|"($i++)"/$qt_tables [$Schema].[$table]"
+    Write-Host (Get-Date -format "yyyy-MM-dd HH:mm:ss"), "|"($i++),"/$qt_tables [$Schema].[$table]"
 
     $drop_table = "if (object_id('[$schema].[$table]')) is not null drop table $schema.[$table];"
 
@@ -219,5 +219,5 @@ foreach ($table in $tables)
     $elapsed_time += (New-TimeSpan -Start $dt_start -End $dt_end).TotalSeconds
     $ts = [timespan]::fromseconds($elapsed_time)
 }
-Write-Host (Get-Date -Format "yyyy-MM-dd HH:mm:ss") "| Elapsed time:"("{0:hh\:mm\:ss\,fff}" -f $ts)
-Write-Host (Get-Date -format "yyyy-MM-dd HH:mm:ss") "| Finish"
+Write-Host (Get-Date -Format "yyyy-MM-dd HH:mm:ss"), "| Elapsed time:"("{0:hh\:mm\:ss\,fff}" -f $ts)
+Write-Host (Get-Date -format "yyyy-MM-dd HH:mm:ss"), "| Finish"

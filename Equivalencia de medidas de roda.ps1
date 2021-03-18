@@ -48,40 +48,46 @@ $tolerancia[1] = [math]::Round($diametro * 1.03, 1);
 Clear-Host;
 Write-Host "Equivalencia de medidas".ToUpper();
 Write-Host "Aro original: $aro_inicial";
-Write-Host "Diâmetro original:" ([Math]::Round($diametro_inicial)) "mm";
-Write-Host "Diâmetro mímino:" ([Math]::Round(($tolerancia | sort | Select -First 1), 0)) "mm";
-Write-Host "Diâmetro máximo:" ([Math]::Round(($tolerancia | sort | Select -Last 1), 0)) "mm";
+Write-Host "Diâmetro original:", ([Math]::Round($diametro_inicial)), "mm";
+Write-Host "Diâmetro mímino:", ([Math]::Round(($tolerancia | Sort-Object | Select-Object -First 1), 0)), "mm";
+Write-Host "Diâmetro máximo:", ([Math]::Round(($tolerancia | Sort-Object | Select-Object -Last 1), 0)), "mm";
 Write-Host;
 
-Write-Host "Tamanho".PadRight(6, ' ').PadLeft(16, ' ')" | Altura (mm)".PadRight(12, ' ')" | Diâmetro (mm)".PadRight(15, ' ')" | Circunferência (mm)".PadRight(20, ' ');
-While ($aro -le 16) {
+Write-Host "Tamanho".PadRight(6, ' ').PadLeft(16, ' '), "| Altura (mm)".PadRight(12, ' '), "| Diâmetro (mm)".PadRight(15, ' '), "| Circunferência (mm)".PadRight(20, ' ');
+While ($aro -le 16)
+{
     $largura = $largura_inicial;
 
     Write-Host "Aro $aro".ToUpper() -ForegroundColor Yellow;
-    While ($largura -le 195) {
+    While ($largura -le 195)
+    {
         $rel_largura = 70 #$rel_largura_inicial;
         
-        While ($rel_largura -ge 25) {
+        While ($rel_largura -ge 25)
+        {
             $diametro = ($aro + (2 * ($largura * $rel_largura / 100) / 25.4)) * 25.4;
             
-            if (($diametro -ge $tolerancia[0]) -and ($diametro -le $tolerancia[1])) {
+            if (($diametro -ge $tolerancia[0]) -and ($diametro -le $tolerancia[1]))
+            {
                 $ForegroundColor = "Green";
                 $char = [char]10004;
             
                 Write-Host "`t$char $largura/$rel_largura R$aro".PadRight(13, ' ') -NoNewline -ForegroundColor $ForegroundColor;
                 Write-Host ([Math]::Round($largura * $rel_largura / 100, 0)).ToString().PadLeft(15, ' ') -NoNewline -ForegroundColor $ForegroundColor;
-                Write-Host " | "([Math]::Round($diametro, 0)).ToString().PadLeft(13, ' ') -NoNewline -ForegroundColor $ForegroundColor;
-                Write-Host " | "('{0:N0}' -f [Math]::Round($diametro * [math]::PI, 0)).ToString().PadLeft(18, ' ') -NoNewline -ForegroundColor $ForegroundColor;
+                Write-Host " |", ([Math]::Round($diametro, 0)).ToString().PadLeft(13, ' ') -NoNewline -ForegroundColor $ForegroundColor;
+                Write-Host " |", ('{0:N0}' -f [Math]::Round($diametro * [math]::PI, 0)).ToString().PadLeft(18, ' ') -NoNewline -ForegroundColor $ForegroundColor;
                 Write-Host (&{If($aro -eq $aro_inicial -and $diametro -eq $diametro_inicial -and $rel_largura -eq $rel_largura_inicial) { ([char]9873).ToString().PadLeft(3, ' ') }}) -ForegroundColor Yellow;
             }
-            else {
+            else
+            {
                 $ForegroundColor = "Red";
                 $char = [char]10006;
             }
 
             $rel_largura = $rel_largura - 5;
     
-            if ($rel_largura -lt 40) {
+            if ($rel_largura -lt 40)
+            {
                 Break;
             }
         }

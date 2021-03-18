@@ -9,19 +9,24 @@
     .PARAMETER cpf
     Número para a verificação.
 
+    .PARAMETER sg
+    Indica se deve ser usada a sigla da região ou o nome por extenso;
+      -sg $true ou -sg 1 - Sigla da região;
+      -sg $false ou -sg 0 - Nome da região fiscal escrita por extenso.
+
     .EXAMPLE
-    & 'C:\Users\vladi\OneDrive\Documentos\Shell\Verifica CPF.ps1' -cpf 12345678909
+    & ((([Environment]::GetFolderPath("MyDocuments")), "PowerShell\Verifica CPF.ps1") -join "\") -cpf 12345678909
+
+    .EXAMPLE
+    & ((([Environment]::GetFolderPath("MyDocuments")), "PowerShell\Verifica CPF.ps1") -join "\") -cpf "123.456.789-09" -sg $false
 #>
 param
 (
-    [string]$cpf
+    [string]$cpf,
+    [boolean]$sg = $true
 );
 
 Write-Host 'Verifica CPF';
-
-$sg = $true;
-
-#$ErrorActionPreference = "silentlycontinue";
 
 $x = 1;
 
@@ -32,7 +37,7 @@ While($true)
         [string]$cpf = (Read-Host -Prompt ($x.ToString() + ' CPF'))
     };
 
-    if($cpf -eq '0')
+    If($cpf -eq '0')
     {
         '-' * 45;
         Break;
@@ -40,34 +45,34 @@ While($true)
 
     $str = ([bigint]($cpf -replace '[^0-9]')).ToString('0'*11);
 
-    $indice = 0;
+    $i = 0;
     $soma = 0;
     $DG1 = 0;
     $DG2 = 0;
     $CPFTemp = 0;
     $digitosIguais = $true;
     $resultado = $false;
-    $CPFTemp = $str.Substring($indice,1);
+    $CPFTemp = $str.Substring($i,1);
 
-    While($indice -lt 11)
+    While($i -lt 11)
     {
-        If($str.Substring($indice,1) -ne $CPFTemp)
+        If($str.Substring($i,1) -ne $CPFTemp)
         {
             $digitosIguais = $false;
             Break;
         };
-        $indice = $indice + 1;
+        $i = $i + 1;
     };
 
     If(!$digitosIguais)
     {
         $soma = 0;
-        $indice = 0;
+        $i = 0;
     
-        While ($indice -le 8)
+        While ($i -le 8)
         {
-            $soma = $soma + ([bigint]($str.Substring($indice,1))) * (10 - $indice);
-            $indice = $indice + 1;
+            $soma = $soma + ([bigint]($str.Substring($i,1))) * (10 - $i);
+            $i = $i + 1;
         };
 
         $DG1 = 11 - ($soma % 11)
@@ -78,11 +83,11 @@ While($true)
         };
 
         $soma = 0;
-        $indice = 0;
-        While($indice -le 9)
+        $i = 0;
+        While($i -le 9)
         {
-            $soma = $soma + ([bigint]($str.Substring($indice,1)) * (11 - $indice));
-            $indice = $indice + 1
+            $soma = $soma + ([bigint]($str.Substring($i,1)) * (11 - $i));
+            $i = $i + 1
         };
 
         $DG2 = 11 - ($soma % 11);
@@ -104,17 +109,13 @@ While($true)
 
     If($resultado)
     {
-        $validade = 'Válido';
         $ForegroundColor = 'Green';
         $char = [char]10004
     }
     Else
     {
-        $validade = 'Inválido';
         $ForegroundColor = 'Red'
         $char = [char]10006
-        #'-' * 25
-        #Break;
     };
 
     Switch ($str.Substring(8,1))
@@ -161,23 +162,19 @@ While($true)
             }
     };
 
-    Write-Host $char -ForegroundColor $ForegroundColor -NoNewline
-    Write-Host (' ' + $str.Substring(0,3) + '.' + $str.Substring(3,3) + '.' + $str.Substring(6,3) + '-' + $str.Substring(9,1) + $str.Substring(10,1) + '  ') -NoNewline
-    #Write-Host $validade -NoNewline -ForegroundColor $ForegroundColor
-    Write-Host ('  ' + $uf);
+    Write-Host $char, " " -ForegroundColor $ForegroundColor -NoNewline
+    If ($sg)
+    {
+      $re = $uf;
+      
+    }
+    Else
+    {
+      $re = $regiao;
+    };
 
-    #If(!$sg)
-    #{
-    #    '-' * $regiao.Length;
-    #    $regiao;
-    #    '-' * $regiao.Length;
-    #}
-    #else
-    #{
-    #    '-' * $uf.Length;
-    #    $uf;
-    #    '-' * $uf.Length;
-    #};
+    Write-Host ($str.Substring(0,3), '.', $str.Substring(3,3), '.', $str.Substring(6,3), '-', $str.Substring(9,1), $str.Substring(10,1), '  ', $re) -Separator "";
+
     $x += 1;
     $cpf = $null;
 };
