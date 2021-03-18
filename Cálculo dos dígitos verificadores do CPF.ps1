@@ -1,29 +1,33 @@
 ﻿<#
     .SYNOPSIS
-    Cálculo dos dígitos verificadores do CPF
+    Cálculo dos dígitos verificadores do CPF.
 
     .DESCRIPTION
     - Cálculo dos dois dígitos verificadores para um CPF;
     - 0 para finalizar a execução após a primeira execução.
 
     .PARAMETER cpf
-    Número para o cálculo dos dígitos.
+    Nove primeiros dígitos do CPF para o cálculo dos dígitos verificadores.
+    Se for informada quantidade menor que 9 dígitos os restantes são preenchidos com zero à esquerda.
 
     .PARAMETER sg
     Indica se deve ser usada a sigla da região ou o nome por extenso;
       -sg $true ou -sg 1 - Sigla da região;
       -sg $false ou -sg 0 - Nome da região tributária escrita por extenso.
 
+    .NOTES
+      Author: Vladimir Rubinstein Andrade Vargas
+
     .EXAMPLE
     & 'C:\Users\vladi\OneDrive\Documentos\PowerShell\Cálculo dos dígitos verificadores do CPF.ps1' -cpf 123456789
-    
+
     .EXAMPLE
     & 'C:\Users\vladi\OneDrive\Documentos\PowerShell\Cálculo dos dígitos verificadores do CPF.ps1' -cpf 123456789 -sg $false
 #>
 
 param
 (
-    [string]$cpf = '123456789',
+    [string]$cpf,
     [boolean]$sg = $true
 );
 
