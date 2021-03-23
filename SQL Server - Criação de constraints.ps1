@@ -52,7 +52,7 @@ foreach ($s in $str)
     };
 
     $i++;
-;}
+};
 
 foreach($s in $str)
 {
