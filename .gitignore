@@ -55,3 +55,4 @@ Modules/PSScriptAnalyzer/1.19.1/Settings/PSGallery.psd1
 Modules/PSScriptAnalyzer/1.19.1/Settings/ScriptFunctions.psd1
 Modules/PSScriptAnalyzer/1.19.1/Settings/ScriptingStyle.psd1
 Modules/PSScriptAnalyzer/1.19.1/Settings/ScriptSecurity.psd1
+*.dll
