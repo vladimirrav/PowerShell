@@ -2,10 +2,10 @@
 Import-Module -Name SqlServer
 Import-Module -Name sqlps
 
-$serverInstance = "."
-$database = "COVID-19"
-$schema = "dw"
-$table = "ft_time_serie"
+$serverInstance = "<server>"
+$database = "<database>"
+$schema = "<schema>"
+$table = "<table>"
 
 $options = New-Object -TypeName Microsoft.SqlServer.Management.Smo.ScriptingOptions
 $options.DriAll = $true
