@@ -106,22 +106,11 @@ catch
     $_.Exception.Message;
 };
 
-<#
+<#  Bars in all available colors
     Clear-Host;
-    Write-Host ([char]12321, (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' '), [char]12321) -ForegroundColor Black;
-    Write-Host ([char]12321, (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' '), [char]12321) -ForegroundColor Blue;
-    Write-Host ([char]12321, (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' '), [char]12321) -ForegroundColor Cyan;
-    Write-Host ([char]12321, (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' '), [char]12321) -ForegroundColor DarkBlue;
-    Write-Host ([char]12321, (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' '), [char]12321) -ForegroundColor DarkCyan;
-    Write-Host ([char]12321, (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' '), [char]12321) -ForegroundColor DarkGray;
-    Write-Host ([char]12321, (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' '), [char]12321) -ForegroundColor DarkGreen;
-    Write-Host ([char]12321, (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' '), [char]12321) -ForegroundColor DarkMagenta;
-    Write-Host ([char]12321, (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' '), [char]12321) -ForegroundColor DarkRed;
-    Write-Host ([char]12321, (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' '), [char]12321) -ForegroundColor DarkYellow;
-    Write-Host ([char]12321, (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' '), [char]12321) -ForegroundColor Gray;
-    Write-Host ([char]12321, (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' '), [char]12321) -ForegroundColor Green;
-    Write-Host ([char]12321, (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' '), [char]12321) -ForegroundColor Magenta;
-    Write-Host ([char]12321, (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' '), [char]12321) -ForegroundColor Red;
-    Write-Host ([char]12321, (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' '), [char]12321) -ForegroundColor White;
-    Write-Host ([char]12321, (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' '), [char]12321) -ForegroundColor Yellow;
+    $colors = [Enum]::GetValues([System.ConsoleColor]);
+    foreach ($color in $colors)
+    {
+        Write-Host ([char]12321, (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' '), [char]12321) -ForegroundColor $color;
+    };
 #>
