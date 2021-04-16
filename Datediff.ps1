@@ -106,7 +106,7 @@ catch
     $_.Exception.Message;
 };
 
-<#  Bars in all available colors
+<#  Bars in all available colours
     Clear-Host;
     $colors = [Enum]::GetValues([System.ConsoleColor]);
     foreach ($color in $colors)
