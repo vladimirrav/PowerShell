@@ -62,3 +62,5 @@ Modules/PSScriptAnalyzer/1.19.1/Settings/ScriptSecurity.psd1
 *.psm1
 Modules/SqlServer/21.1.18245/coreclr/SqlServerPostScript.ps1
 Modules/SqlServer/21.1.18245/SqlServerPostScript.ps1
+Modules/MicrosoftTeams/2.3.0/LICENSE.txt
+*.md
