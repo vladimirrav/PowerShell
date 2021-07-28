@@ -4,7 +4,6 @@ $ComputerList = @();
 $ComputerList += $env:COMPUTERNAME;
 
 $bar_scale = 0.3;
-$txt_out = $true;
 $txt_file = [Environment]::GetFolderPath("MyDocuments") + "\disk_space_usage.txt";
 
 Remove-Item -Path $txt_file -ErrorAction SilentlyContinue;
