@@ -10,13 +10,18 @@ Remove-Item -Path $txt_file -ErrorAction SilentlyContinue;
 
 foreach ($ComputerName in $ComputerList)
 {
-
     Write-Host "Date".PadRight(12, ' ')(Get-Date).ToString("dd-MM-yyyy HH:mm:ss");
     Write-Host "ComputerName".PadRight(12, ' ')$ComputerName;
     Write-Host ("-" * 35);
 
-    $disk = Get-WmiObject Win32_LogicalDisk -ComputerName $ComputerName | #-Filter "DeviceID='C:'" |
-    Select-Object DeviceID, Size, FreeSpace, VolumeName;
+    <#  # Older, sometimes only the Get-WmiObject works on the machine
+        $disk = Get-WmiObject Win32_LogicalDisk -ComputerName $ComputerName -Filter "DriveType=3" |
+        Select-Object DeviceID, DriveType, FreeSpace, Size, VolumeName;
+        #>
+
+    # Enable-PSRemoting -Force;
+    $disk = Get-CimInstance -ClassName Win32_LogicalDisk -ComputerName $ComputerName -Filter "DriveType=3" |
+    Select-Object -Property DeviceID, DriveType, FreeSpace, Size, VolumeName;
 
     Add-Content -Path $txt_file -Value ("Date`t" + (Get-Date).ToString("dd-MM-yyyy HH:mm:ss"));
     Add-Content -Path $txt_file -Value "ComputerName`t$ComputerName";
