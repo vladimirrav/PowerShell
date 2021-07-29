@@ -50,7 +50,7 @@ foreach ($ComputerName in $ComputerList)
             Add-Content -Path $txt_file -Value ((" `tSize`t".PadRight(11, ' ') + ([math]::Round($d.Size / 1GB, 2).toString('0.00')) + " GB"));
             Add-Content -Path $txt_file -Value ("-" + "`tUsed space`t" + ([math]::Round(($d.Size - $d.FreeSpace) / 1GB, 2).toString('0.00'))+ " GB" + "`t" + ([Math]::Round(1 - ($d.FreeSpace / $d.Size), 2) * 100) + "%");
             Add-Content -Path $txt_file -Value ("+" + "`tFree space`t" + ([math]::Round($d.FreeSpace / 1GB, 2).toString('0.00')) + " GB" + "`t" + ([Math]::Round($d.FreeSpace / $d.Size, 2) * 100) + "%");
-            Add-Content -Path $txt_file -Value (" `t" + ("O" * (([Math]::Round(1 - ($d.FreeSpace / $d.Size), 2) * 100) * $bar_scale)) + ("." * (([Math]::Round($d.FreeSpace / $d.Size, 2) * 100) * $bar_scale)));
+            Add-Content -Path $txt_file -Value (" `t" + ("#" * (([Math]::Round(1 - ($d.FreeSpace / $d.Size), 2) * 100) * $bar_scale)) + ("." * (([Math]::Round($d.FreeSpace / $d.Size, 2) * 100) * $bar_scale)));
             Add-Content -Path $txt_file -Value ("" * 35);
         }
         catch
