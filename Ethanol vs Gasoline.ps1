@@ -20,6 +20,8 @@ $value_E = [math]::Round(($price_LE * $dist / 100 * $km100_E), 2);
 
 # Output
 Write-Host "Distance"$dist.ToString('#,##0')"Km";
+Write-Host "Km/L ratio E/G"($kml_E / $kml_G * 100).ToString('0.0')"%";
+Write-Host '$$$ ratio E/G'($price_LE / $price_LG * 100).ToString('0.0')"%";
 
 Write-Host "G " -NoNewline;
 Write-Host "Km/L: $kml_G"-NoNewline;
