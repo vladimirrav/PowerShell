@@ -21,7 +21,7 @@ $ΔE_pct = [math]::Round(100 * ($ΔE/$E), 2);
 Write-Host "ρ = $ρ Ω"; # Resistividade específica do material
 Write-Host "l = $l m";     # Comprimento do condutor em metros
 Write-Host "S = $S mm²";    # Seção do condutor em mm²
-Write-Host $E
+Write-Host "E = $E V";		# Tensão em Volts
 Write-Host "I = $I A";     # Corrente elétrica em ampère
 Write-Host "cosθ = $cosθ"; # Fator de potência
 
