@@ -44,20 +44,21 @@ function fn_password_notification (
 		[Int16]$days_notification
 	)
 {
-	$date = $date.Replace('/', '-');
+	$date = $date.Replace('-', '/');
 	try {
-		$dt = [datetime]::parseexact($date, 'dd-MM-yyyy', $null);
+		$dt = [datetime]::parseexact($date, 'dd/MM/yyyy', $null);
 	}
 	catch {
-		$dt = [datetime]::parseexact($date, 'yyyy-MM-dd', $null);
+		$dt = [datetime]::parseexact($date, 'yyyy/MM/dd', $null);
 	};
 	$notification_date = $dt.AddDays($days - $days_notification);
 	$expiration_date = $dt.AddDays($days);
 	$ts = New-TimeSpan -Start (Get-Date) -End $expiration_date;
 
-	Write-Host("Today date:", $dt.ToString('dd-MM-yyyy'));
-	Write-Host("Notification date:", $notification_date.ToString('dd-MM-yyyy'));
-	Write-Host("Expiration date:", $expiration_date.ToString('dd-MM-yyyy'));
+	Write-Host("Date:", $dt.ToString('dd/MM/yyyy'));
+	Write-Host("Today date:", (Get-Date).ToString('dd/MM/yyyy'));
+	Write-Host("Notification date:", $notification_date.ToString('dd/MM/yyyy'));
+	Write-Host("Expiration date:", $expiration_date.ToString('dd/MM/yyyy'));
 	if ($ts.Days -ge 0) {
 		Write-Host("Expiration date in", $ts.Days, "days");
 	}
