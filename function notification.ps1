@@ -26,7 +26,7 @@
 		$ps_directory = ([Environment]::GetFolderPath("MyDocuments") + '\PowerShell');
 		$module = ($ps_directory + '\function notification.ps1').Replace('\\', '\');
 		Import-Module $module;
-		$file = $directory + '\vlrubins.txt'; --a file that stores the date the password was last changed in the first row in the format [string dd/mm/yyyy]
+		$file = $directory + '\vlrubins.txt'; # a file that stores the date the password was last changed in the first row in the format [string dd/mm/yyyy]
 		$date = (Get-Content -Path $file -First 1).Split(' ')[1]
 		fn_password_notification -date $date -days 30 -days_notification 5;
 
@@ -35,7 +35,7 @@
 		$ps_directory = ([Environment]::GetFolderPath("MyDocuments") + '\PowerShell');
 		$module = ($ps_directory + '\function notification.ps1').Replace('\\', '\');
 		Import-Module $module;
-		fn_password_notification -date '2022-12-02' -days 30 -days_notification 5;
+		fn_password_notification -date '2022-12-29' -days 30 -days_notification 5;
 #>
 
 function fn_password_notification (
