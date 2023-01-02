@@ -60,11 +60,13 @@ function fn_password_notification (
 	Write-Host("Notification date:", $notification_date.ToString('dd/MM/yyyy'));
 	Write-Host("Expiration date:", $expiration_date.ToString('dd/MM/yyyy'));
 	if ($ts.Days -ge 0) {
-		Write-Host("Expiration date in", $ts.Days, "days");
+		$msg = 'Password expiration in ' + $ts.Days + ' days: ' + [datetime]::parseexact($expiration_date.ToString('yyyy-MM-dd'), 'yyyy-MM-dd', $null).ToString('dd/MM/yyyy');
 	}
 	else {
-		Write-Host("Password expired ", $ts.Days, "days ago");
+		$msg = 'Password expired ' + [Math]::Abs($ts.Days) + ' days ago: ' + [datetime]::parseexact($expiration_date.ToString('yyyy-MM-dd'), 'yyyy-MM-dd', $null).ToString('dd/MM/yyyy');
 	};
+	Write-Host($msg);
+
 	if((Get-Date) -ge $notification_date)
 	{
 		[reflection.assembly]::loadwithpartialname('System.Windows.Forms');
@@ -72,13 +74,6 @@ function fn_password_notification (
 		$notify = new-object system.windows.forms.notifyicon;
 		$notify.icon = [System.Drawing.SystemIcons]::Information;
 		$notify.visible = $true;
-		if ($ts.Days -ge 0) {
-			$msg = 'Password expiration in ' + $ts.Days + ' days: ' + [datetime]::parseexact($expiration_date.ToString('yyyy-MM-dd'), 'yyyy-MM-dd', $null).ToString('dd/MM/yyyy');
-			$notify.showballoontip(10,'Warning', $msg, [system.windows.forms.tooltipicon]::None);
-		}
-		else {
-			$msg = 'Password expired ' + $ts.Days + ' days ago: ' + [datetime]::parseexact($expiration_date.ToString('yyyy-MM-dd'), 'yyyy-MM-dd', $null).ToString('dd/MM/yyyy');
-			$notify.showballoontip(10,'Warning', $msg, [system.windows.forms.tooltipicon]::None);
-		}
+		$notify.showballoontip(10,'Warning', $msg, [system.windows.forms.tooltipicon]::None);
 	};
 };
