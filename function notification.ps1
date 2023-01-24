@@ -54,16 +54,17 @@ function fn_password_notification (
 	$notification_date = $dt.AddDays($days - $days_notification);
 	$expiration_date = $dt.AddDays($days);
 	$ts = New-TimeSpan -Start (Get-Date) -End $expiration_date;
+	$total_days = [math]::Ceiling($ts.TotalDays);
 
 	Write-Host("Date:", $dt.ToString('dd/MM/yyyy'));
 	Write-Host("Today date:", (Get-Date).ToString('dd/MM/yyyy'));
 	Write-Host("Notification date:", $notification_date.ToString('dd/MM/yyyy'));
 	Write-Host("Expiration date:", $expiration_date.ToString('dd/MM/yyyy'));
-	if ($ts.Days -ge 0) {
-		$msg = 'Password expiration in ' + $ts.Days + ' days: ' + [datetime]::parseexact($expiration_date.ToString('yyyy-MM-dd'), 'yyyy-MM-dd', $null).ToString('dd/MM/yyyy');
+	if ($total_days -ge 0) {
+		$msg = 'Password expiration in ' + $total_days + ' days: ' + [datetime]::parseexact($expiration_date.ToString('yyyy-MM-dd'), 'yyyy-MM-dd', $null).ToString('dd/MM/yyyy');
 	}
 	else {
-		$msg = 'Password expired ' + [Math]::Abs($ts.Days) + ' days ago: ' + [datetime]::parseexact($expiration_date.ToString('yyyy-MM-dd'), 'yyyy-MM-dd', $null).ToString('dd/MM/yyyy');
+		$msg = 'Password expired ' + [Math]::Abs($total_days) + ' days ago: ' + [datetime]::parseexact($expiration_date.ToString('yyyy-MM-dd'), 'yyyy-MM-dd', $null).ToString('dd/MM/yyyy');
 	};
 	Write-Host($msg);
 
