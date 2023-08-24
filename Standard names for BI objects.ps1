@@ -6,32 +6,32 @@ $object_type = @('job', 'table', 'extract');
 $table_prefix = @('DM', 'BT', 'LK') | Sort-Object;
 $table_type = 'DM';
 $job_prefix = @('BQ');
-$business_prefix = 'MR';
+$business_acronym = 'MR';
 $extract_prefix = @('HYPER');
 $obj_name = 'OBJECT_NAME';
 
 foreach ($item in $object_type)
 {
-	Write-Host "$item`t" -NoNewline;
-	if ($item -eq 'job')
+	Write-Host ((Get-Culture).TextInfo.ToTitleCase($item.ToLower()) + "`t") -NoNewline;
+	if ($item.ToLower() -eq 'job'.ToLower())
 	{
 		foreach ($prefix in $job_prefix)
 		{
-			Write-Host ($prefix, $business_prefix, $obj_name) -Separator '_' -ForegroundColor DarkYellow;
+			Write-Host ($prefix, $business_acronym, $obj_name) -Separator '_' -ForegroundColor DarkYellow;
 		};
 	}
-	elseif ($item -eq 'table')
+	elseif ($item.ToLower() -eq 'table'.ToLower())
 	{
-		foreach ($prefix in $table_prefix.where{$_ -match $table_type})
+		foreach ($prefix in $table_prefix.where{$PSItem -match $table_type})
 		{
-			Write-Host ($prefix, $business_prefix, $obj_name) -Separator '_' -ForegroundColor Blue;
+			Write-Host ($prefix, $business_acronym, $obj_name) -Separator '_' -ForegroundColor Blue;
 		};
 	}
-	elseif ($item -eq 'extract')
+	elseif ($item.ToLower() -eq 'extract'.ToLower())
 	{
 		foreach ($prefix in $extract_prefix)
 		{
-			Write-Host ($prefix, $business_prefix, $obj_name) -Separator '_' -ForegroundColor Green;
+			Write-Host ($prefix, $business_acronym, $obj_name) -Separator '_' -ForegroundColor Green;
 		};
 	};
 };
