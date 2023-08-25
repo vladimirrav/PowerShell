@@ -42,13 +42,13 @@ param (
 	[string]$object_name = 'OBJECT_NAME'
 );
 
-<# For testing #>
-# [string]$table_prefix = 'DM';
-# [string]$job_prefix = 'BQ';
-# [string]$extract_prefix = 'HYPER';
-# [string]$business_acronym = 'MR';
-# [string]$object_name = 'OBJECT_NAME';
-<# For testing #>
+<# For testing
+	[string]$table_prefix = 'DM';
+	[string]$job_prefix = 'BQ';
+	[string]$extract_prefix = 'HYPER';
+	[string]$business_acronym = 'MR';
+	[string]$object_name = 'OBJECT_NAME';
+#>
 
 $object_types = @('job', 'table', 'extract');
 
@@ -63,19 +63,19 @@ foreach ($object_type in $object_types)
 {
 	# Get the prefix for the current object type
 	$prefix = $prefixes[$object_type];
-
+	$colors = [enum]::GetValues([System.ConsoleColor]);
 	$color = Switch ($object_type)
 	{
-		'job' {'DarkYellow'}
-		'table' {'Blue'}
-		'extract' {'Green'}
+		'job' {Get-Random -InputObject($colors | Select-Object -First 5 -Skip 1)}
+		'table' {Get-Random -InputObject($colors | Select-Object -First 5 -Skip 6)}
+		'extract' {Get-Random -InputObject($colors | Select-Object -First 5 -Skip 11)}
 		Default {'White'}
 	};
 
-	# Iterate over the table prefixes
-	foreach ($table_prefix in $prefix)
+	# Iterate over the object prefixes
+	foreach ($object_prefix in $prefix)
 	{
 		# Format the output
-		Write-Host (("{0}`t{1}_{2}_{3}" -f ((Get-Culture).TextInfo.ToTitleCase($object_type.ToLower())), $table_prefix, $business_acronym, $object_name)) -ForegroundColor $color;
+		Write-Host (("{0}`t{1}_{2}_{3}" -f ((Get-Culture).TextInfo.ToTitleCase($object_type.ToLower())), $object_prefix, $business_acronym, $object_name)) -ForegroundColor $color;
 	};
 };
