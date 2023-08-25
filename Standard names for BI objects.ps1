@@ -16,8 +16,8 @@
 		Date: 2023-08-24
 
 	.EXAMPLE
-		# $documents = '/Users/user_name/Library/CloudStorage/GoogleDrive-user_email@company.com/Meu Drive/Powershell';
-		# Set-Location -Path $documents;
+		$documents = '/Users/user_name/Library/CloudStorage/GoogleDrive-user_email@company.com/Meu Drive/Powershell';
+		Set-Location -Path $documents;
 		& "$documents/Standard names for BI objects.ps1" -obj_name 'OBJECT_NAME' -table_type 'DM' -business_acronym 'MR';
 	
 		$documents = [Environment]::GetFolderPath("MyDocuments");
