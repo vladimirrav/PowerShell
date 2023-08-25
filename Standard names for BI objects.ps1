@@ -1,14 +1,39 @@
 <#
+	.SYNOPSIS
 	Standard names for BI objects
+
+	.DESCRIPTION
+	Standard names for BI objects for table, job and Tableau extract
+
+	.PARAMETER -obj_name
+	Object name
+
+	.PARAMETER -table_type
+		Table type: BT, DM or LK
+
+	.NOTES
+		Author: Vladimir Rubinstein Andrade Vargas
+		Date: 2023-08-24
+
+	.EXAMPLE
+		$documents = [Environment]::GetFolderPath("MyDocuments");
+		Set-Location -Path ($documents + '/Documents/Powershell/');
+		& "$documents/Standard names for BI objects.ps1" -obj_name 'PORTABILIDAD_RANGO' -table_type 'DM' -business_acronym 'MR';
 #>
+
+param (
+	[string]$obj_name = 'OBJECT_NAME',
+	[string]$table_type = 'DM',
+	[string]$business_acronym = 'MR'
+);
 
 $object_type = @('job', 'table', 'extract');
 $table_prefix = @('DM', 'BT', 'LK') | Sort-Object;
-$table_type = 'DM';
+# $table_type = 'DM';
 $job_prefix = @('BQ');
-$business_acronym = 'MR';
+# $business_acronym = 'MR';
 $extract_prefix = @('HYPER');
-$obj_name = 'OBJECT_NAME';
+# $obj_name = 'OBJECT_NAME';
 
 foreach ($item in $object_type)
 {
