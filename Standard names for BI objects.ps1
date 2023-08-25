@@ -1,66 +1,81 @@
 <#
 	.SYNOPSIS
-	Standard names for BI objects
+		Standard names for BI objects
 
 	.DESCRIPTION
-	Standard names for BI objects for table, job and Tableau extract according to business rules
+		Standard names for BI objects for table, job and Tableau extract according to business rules
 
-	.PARAMETER obj_name
-	Object name
+	.PARAMETER table_prefix
+		Table prefix: BT, DM or LK
 
-	.PARAMETER table_type
-		Table type: BT, DM or LK
+	.PARAMETER job_prefix
+		Prefix for the job: BQ
+
+	.PARAMETER extract_prefix
+		Prefix for the Table extract: HYPER
+
+	.PARAMETER business_acronym
+		Acronym for the business unit: MR
+
+	.PARAMETER object_name
+		Object name
 
 	.NOTES
 		Author: Vladimir Rubinstein Andrade Vargas
 		Date: 2023-08-24
 
 	.EXAMPLE
-		$documents = '/Users/user_name/Library/CloudStorage/GoogleDrive-user_email@company.com/Meu Drive/Powershell';
+		$documents = '/Users/user_name/Library/CloudStorage/GoogleDrive-user_mail@company.com/Meu Drive/Powershell';
 		Set-Location -Path $documents;
-		& "$documents/Standard names for BI objects.ps1" -obj_name 'OBJECT_NAME' -table_type 'DM' -business_acronym 'MR';
+		& "$documents/Standard names for BI objects.ps1" -table_prefix 'DM' -job_prefix 'BQ' -extract_prefix 'HYPER' -business_acronym 'MR' -object_name 'OBJECT_NAME';
 	
 		$documents = [Environment]::GetFolderPath("MyDocuments");
 		Set-Location -Path ($documents + '/Documents/Powershell/');
-		& "$documents/Standard names for BI objects.ps1" -obj_name 'OBJECT_NAME' -table_type 'DM' -business_acronym 'MR';
+		& "$documents/Standard names for BI objects.ps1" -table_prefix 'DM' -job_prefix 'BQ' -extract_prefix 'HYPER' -business_acronym 'MR' -object_name 'OBJECT_NAME';
 #>
 
 param (
-	[string]$obj_name = 'OBJECT_NAME',
-	[string]$table_type = 'DM',
-	[string]$business_acronym = 'MR'
+	[string]$table_prefix = 'DM',
+	[string]$job_prefix = 'BQ',
+	[string]$extract_prefix = 'HYPER',
+	[string]$business_acronym = 'MR',
+	[string]$object_name = 'OBJECT_NAME'
 );
 
-$object_type = @('job', 'table', 'extract');
-$table_prefix = @('DM', 'BT', 'LK') | Sort-Object;
-# $table_type = 'DM';
-$job_prefix = @('BQ');
-# $business_acronym = 'MR';
-$extract_prefix = @('HYPER');
-# $obj_name = 'OBJECT_NAME';
+<# For testing #>
+# [string]$table_prefix = 'DM';
+# [string]$job_prefix = 'BQ';
+# [string]$extract_prefix = 'HYPER';
+# [string]$business_acronym = 'MR';
+# [string]$object_name = 'OBJECT_NAME';
+<# For testing #>
 
-foreach ($item in $object_type)
+$object_types = @('job', 'table', 'extract');
+
+$prefixes = @{
+	job = $job_prefix
+	table = $table_prefix
+	extract = $extract_prefix
+};
+
+# Iterate over all the object types
+foreach ($object_type in $object_types)
 {
-	Write-Host ((Get-Culture).TextInfo.ToTitleCase($item.ToLower()) + "`t") -NoNewline;
-	if ($item.ToLower() -eq 'job'.ToLower())
+	# Get the prefix for the current object type
+	$prefix = $prefixes[$object_type];
+
+	$color = Switch ($object_type)
 	{
-		foreach ($prefix in $job_prefix)
-		{
-			Write-Host ($prefix, $business_acronym, $obj_name) -Separator '_' -ForegroundColor DarkYellow;
-		};
-	}
-	elseif ($item.ToLower() -eq 'table'.ToLower())
+		'job' {'DarkYellow'}
+		'table' {'Blue'}
+		'extract' {'Green'}
+		Default {'White'}
+	};
+
+	# Iterate over the table prefixes
+	foreach ($table_prefix in $prefix)
 	{
-		foreach ($prefix in $table_prefix.where{$PSItem -match $table_type})
-		{
-			Write-Host ($prefix, $business_acronym, $obj_name) -Separator '_' -ForegroundColor Blue;
-		};
-	}
-	elseif ($item.ToLower() -eq 'extract'.ToLower())
-	{
-		foreach ($prefix in $extract_prefix)
-		{
-			Write-Host ($prefix, $business_acronym, $obj_name) -Separator '_' -ForegroundColor Green;
-		};
+		# Format the output
+		Write-Host (("{0}`t{1}_{2}_{3}" -f $object_type, $table_prefix, $business_acronym, $object_name)) -ForegroundColor $color;
 	};
 };
