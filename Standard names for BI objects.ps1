@@ -5,10 +5,10 @@
 	.DESCRIPTION
 	Standard names for BI objects for table, job and Tableau extract according to business rules
 
-	.PARAMETER -obj_name
+	.PARAMETER obj_name
 	Object name
 
-	.PARAMETER -table_type
+	.PARAMETER table_type
 		Table type: BT, DM or LK
 
 	.NOTES
