@@ -25,7 +25,7 @@
 		Date: 2023-08-24
 
 	.EXAMPLE
-		$documents = '/Users/user_name/Library/CloudStorage/GoogleDrive-user_mail@company.com/Meu Drive/Powershell';
+		$documents = '/Users/user_name/Library/CloudStorage/GoogleDrive-user_email@company.com/Meu Drive/Powershell';
 		Set-Location -Path $documents;
 		& "$documents/Standard names for BI objects.ps1" -table_prefix 'DM' -job_prefix 'BQ' -extract_prefix 'HYPER' -business_acronym 'MR' -object_name 'OBJECT_NAME';
 	
@@ -76,6 +76,6 @@ foreach ($object_type in $object_types)
 	foreach ($table_prefix in $prefix)
 	{
 		# Format the output
-		Write-Host (("{0}`t{1}_{2}_{3}" -f $object_type, $table_prefix, $business_acronym, $object_name)) -ForegroundColor $color;
+		Write-Host (("{0}`t{1}_{2}_{3}" -f ((Get-Culture).TextInfo.ToTitleCase($object_type.ToLower())), $table_prefix, $business_acronym, $object_name)) -ForegroundColor $color;
 	};
 };
