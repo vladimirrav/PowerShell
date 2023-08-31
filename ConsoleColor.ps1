@@ -11,5 +11,6 @@ $colors = [Enum]::GetValues([System.ConsoleColor]);
 
 foreach ($color in $colors)
 {
-    Write-Host ([char]12321, (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' '), [char]12321) $color -ForegroundColor $color;
+    $n = [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100);
+    Write-Host ([char]12321, (([char]9608).toString() * $n).PadRight(100, ' '), [char]12321), $n.toString().PadLeft(3, ' '), $color -ForegroundColor $color;
 };
