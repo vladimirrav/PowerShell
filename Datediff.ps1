@@ -24,7 +24,7 @@
         -----------------------------------------------------------------
         〡 ██████████████████                                           〡 | 31,4% |
         -----------------------------------------------------------------
-        # 2101
+        # 21
         Start      2023-05-08 09:00:00
         End        2024-05-09 07:00:00
         Interval   00:00:07
@@ -72,7 +72,7 @@ do {
             {$_ -gt 0.75 -and $_ -le 1} { 'DarkGreen' }
             Default {'DarkBlue'}
         };
-    Write-Host ([char]12321, (([char]9608).toString() * [Math]::Floor($pc * (100 * $n))).PadRight((100 * $n), ' '), [char]12321) ($pc).ToString('| 0.0% |') -ForegroundColor $ForegroundColor;
+    Write-Host ([char]12321, (([char]9608).toString() * [Math]::Floor(($pc -le 1 ? $pc : 1) * (100 * $n))).PadRight((100 * $n), ' '), [char]12321) ($pc).ToString('| 0.0% |') -ForegroundColor $ForegroundColor;
     $Host.UI.RawUI.WindowTitle = ([char]12321, (([char]9608).toString() * [Math]::Floor($pc * (100 * 0.50))).PadRight((100 * 0.50), ' '), [char]12321), ($pc).ToString('| 0.0% |')
 
     Write-Host ('-' * ((100 * $n) + 5));
@@ -80,7 +80,7 @@ do {
     Write-Host ('Start'.PadRight($qt_pad, $ch_pad), $start);
     Write-Host ('End'.PadRight($qt_pad, $ch_pad), $end);
     Write-Host ('Interval'.PadRight($qt_pad, $ch_pad), [timespan]::FromSeconds($interval).toString());
-    $ts.To
+
     Write-Host ('Days'.PadRight($qt_pad, $ch_pad), ([Math]::Ceiling($ts2.TotalDays)).ToString('0').PadLeft($qt_pad, $ch_pad), '|', ([Math]::Ceiling($ts.TotalDays)).ToString('0').PadLeft($qt_pad, $ch_pad));
     Write-Host ('Hours'.PadRight($qt_pad, $ch_pad), $ts2.TotalHours.ToString('#,0').PadLeft($qt_pad, $ch_pad), '|', $ts.TotalHours.ToString('#,0').PadLeft($qt_pad, $ch_pad));
     Write-Host ('Minutes'.PadRight($qt_pad, $ch_pad), $ts2.TotalMinutes.ToString('#,0').PadLeft($qt_pad, $ch_pad), '|', $ts.TotalMinutes.ToString('#,0').PadLeft($qt_pad, $ch_pad));
@@ -107,7 +107,6 @@ do {
     {
         Start-Sleep -Seconds ($interval);
     };
-
     #$start = (Get-Date).ToString('yyyy-MM-dd HH:mm:ss');
 }
 while ($ts.TotalHours -ge 0);
@@ -123,12 +122,3 @@ catch
 {
     $_.Exception.Message;
 };
-
-<#  Bars in all available colours
-    Clear-Host;
-    $colors = [Enum]::GetValues([System.ConsoleColor]);
-    foreach ($color in $colors)
-    {
-        Write-Host ([char]12321, (([char]9608).toString() * [int](((Get-Random -Minimum 90 -Maximum (100 + 1))/100) * 100)).PadRight(100, ' '), [char]12321) -ForegroundColor $color;
-    };
-#>
