@@ -38,19 +38,19 @@
 param (
     [string]$start,
     [string]$end,
-    [int]$interval = 5,
+    [int]$interval = 1,
     [int]$bar_size = 60
 );
 
 <# For testing
-    $start = (Get-Date).ToString('2023-05-08 09:00:00');
-    $end = (Get-Date).ToString('2024-05-09 07:00:00');
+    $start = (Get-Date).ToString('yyyy-MM-dd 08:45');
+    $end = ([datetime]$start).AddMinutes(588).toString("yyyy-MM-dd HH:mm") 
     $bar_size = 60;
 #>
 
 $start = (!$start ? (Get-Date).ToString('2018-09-10 09:30:00') : $start);
 $end = (!$end ? (Get-Date).ToString('2019-09-14 07:00:00') : $end);
-$interval = (!$interval ? 7 : $interval);
+$interval = (!$interval ? 1 : $interval);
 $i = 1;
 $qt_pad = 10;
 $ch_pad = " ";
@@ -76,7 +76,7 @@ do {
     $Host.UI.RawUI.WindowTitle = ([char]12321, (([char]9608).toString() * [Math]::Floor($pc * (100 * 0.50))).PadRight((100 * 0.50), ' '), [char]12321), ($pc).ToString('| 0.0% |')
 
     Write-Host ('-' * ((100 * $n) + 5));
-    Write-Host ('#', $i);
+    Write-Host ('#', $i.ToString('#,0'));
     Write-Host ('Start'.PadRight($qt_pad, $ch_pad), $start);
     Write-Host ('End'.PadRight($qt_pad, $ch_pad), $end);
     Write-Host ('Interval'.PadRight($qt_pad, $ch_pad), [timespan]::FromSeconds($interval).toString());
@@ -109,14 +109,14 @@ do {
     };
     #$start = (Get-Date).ToString('yyyy-MM-dd HH:mm:ss');
 }
-while ($ts.TotalHours -ge 0);
+while ($ts2.TotalSeconds -ge 0);
 
 Write-Host ('*' * ((100 * $n) + 3));
 
 try
 {
-    Stop-Job -Name DateDiff;
-    Remove-Job -Name DateDiff;
+    Stop-Job -Name DateDiff -ErrorAction SilentlyContinue;
+    Remove-Job -Name DateDiff -ErrorAction SilentlyContinue;
 }
 catch
 {
