@@ -43,16 +43,17 @@ param (
 );
 
 <# For testing
-    $start = (Get-Date).ToString('yyyy-MM-dd 08:45');
-    $end = ([datetime]$start).AddMinutes(588).toString("yyyy-MM-dd HH:mm") 
+    $start = (Get-Date).AddMinutes(-24 * 60 * 0).ToString('yyyy-MM-dd 09:12');
+    # $end = ([datetime]$start).AddMinutes(24 * 60 * 1).toString("yyyy-MM-dd HH:mm");
+    $end = ([datetime]$start).AddMinutes(588 + 0).toString("yyyy-MM-dd HH:mm");
     $bar_size = 60;
 #>
 
-$start = (!$start ? (Get-Date).ToString('2018-09-10 09:30:00') : $start);
-$end = (!$end ? (Get-Date).ToString('2019-09-14 07:00:00') : $end);
+$start = (!$start ? (Get-Date).ToString('2023-09-18 12:00:00') : $start);
+$end = (!$end ? (Get-Date).ToString('2023-09-19 11:59:00') : $end);
 $interval = (!$interval ? 1 : $interval);
 $i = 1;
-$qt_pad = 10;
+$qt_pad = 12;
 $ch_pad = " ";
 # $qt_min = 0;
 # $qt_min_total = 0;
@@ -63,6 +64,7 @@ do {
     Clear-Host;
     Write-Host ('-' * ((100 * $n) + 5));
     $ts2 = New-TimeSpan -Start (Get-Date) -End $end;
+    $ts3 = New-TimeSpan -Start $start -End (Get-Date);
     $pc = 1 - $ts2.TotalMinutes / $ts.TotalMinutes;
     $ForegroundColor = 
         switch ([math]::Round($pc, 3)) {
@@ -77,8 +79,8 @@ do {
 
     Write-Host ('-' * ((100 * $n) + 5));
     Write-Host ('#', $i.ToString('#,0'));
-    Write-Host ('Start'.PadRight($qt_pad, $ch_pad), $start);
-    Write-Host ('End'.PadRight($qt_pad, $ch_pad), $end);
+    Write-Host ('Start'.PadRight($qt_pad, $ch_pad), $start, '|', 'Elapsed time'.PadRight($qt_pad, $ch_pad), "{0:hh\:mm\:ss}" -f, [timespan]::FromSeconds($ts3.TotalSeconds));
+    Write-Host ('End'.PadRight($qt_pad, $ch_pad), $end, '|', 'Time left'.PadRight($qt_pad, $ch_pad), "{0:hh\:mm\:ss}" -f, [timespan]::FromSeconds($ts2.TotalSeconds));
     Write-Host ('Interval'.PadRight($qt_pad, $ch_pad), [timespan]::FromSeconds($interval).toString());
 
     Write-Host ('Days'.PadRight($qt_pad, $ch_pad), ([Math]::Ceiling($ts2.TotalDays)).ToString('0').PadLeft($qt_pad, $ch_pad), '|', ([Math]::Ceiling($ts.TotalDays)).ToString('0').PadLeft($qt_pad, $ch_pad));
@@ -92,21 +94,21 @@ do {
     #   $qt_min = $ts.TotalMinutes;
     #};
     
-    if ($interval -le 0)
-    {
-        break;
-    };
+    # if ($interval -le 0)
+    # {
+    #     break;
+    # };
 
     $i ++;
     
-    if((Get-Date).Hour -eq 19)
-    {
-        Start-Sleep -Seconds (13*60*60);
-    }
-    else
-    {
+    # if((Get-Date).Hour -eq 19)
+    # {
+    #     Start-Sleep -Seconds (13*60*60);
+    # }
+    # else
+    # {
         Start-Sleep -Seconds ($interval);
-    };
+    # };
     #$start = (Get-Date).ToString('yyyy-MM-dd HH:mm:ss');
 }
 while ($ts2.TotalSeconds -ge 0);
